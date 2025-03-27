@@ -17,12 +17,15 @@ mitad = (0.5 V.*)
 
 --interpreta el operador de rotacion
 interp_rotar :: ImagenFlotante -> ImagenFlotante
+interp_rotar d w h = (rotate -90) d+h h -w
 
 --interpreta el operador de espejar
 interp_espejar :: ImagenFlotante -> ImagenFlotante
+interp_espejar d w h = (scale -1 1) d+w -w h
 
 --interpreta el operador de rotacion 45
 interp_rotar45 :: ImagenFlotante -> ImagenFlotante
+interp_rotar45 = (rotate 45) d w h
 
 --interpreta el operador de apilar
 interp_apilar :: Int -> Int -> ImagenFlotante -> ImagenFlotante -> ImagenFlotante
