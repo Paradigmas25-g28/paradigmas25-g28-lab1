@@ -1,6 +1,3 @@
--- Sacar del esqueleto final!
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use camelCase" #-}
 module Interp where
 import Graphics.Gloss
 import Graphics.Gloss.Data.Vector
@@ -15,8 +12,6 @@ type Interpretacion a = a -> ImagenFlotante
 mitad :: Vector -> Vector
 mitad = (0.5 V.*)
 
-productoEscalar :: Float -> Vector -> Vector
-productoEscalar k (x, y) = (k * x, k * y)
 -- Interpretaciones de los constructores de Dibujo
 
 --interpreta el operador de rotacion
@@ -29,7 +24,7 @@ interp_espejar imgf d w = imgf (d+w) (-w)
 
 --interpreta el operador de rotacion 45
 interp_rotar45 :: ImagenFlotante -> ImagenFlotante
-interp_rotar45 imgf d w h = imgf (d+(w+h)/2) ((w+h)/2) ((h-w)/2)
+interp_rotar45 imgf d w h = imgf d+(mitad (w+h)) (mitad (w+h)) (mitad (h-w))
 
 --interpreta el operador de apilar
 interp_apilar :: Float -> Float -> ImagenFlotante -> ImagenFlotante -> ImagenFlotante
