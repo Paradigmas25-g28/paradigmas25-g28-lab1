@@ -10,7 +10,7 @@ ejemplo :: Dibujo Basica
 --ejemplo = Apilar 1 1 (Espejar (Basica ())) (Espejar (Basica ()))
 --ejemplo = Encimar (Basica()) (Rotar(Basica()))
 --ejemplo = Juntar 1 1 (Basica()) (Rotar(Basica()))
-ejemplo = Rot45 (Basica()) (corregir rot45)
+ejemplo = Rot45 (Basica()) -- (corregir rot45)
 
 interpBas :: Basica -> ImagenFlotante
 interpBas () = formaF

@@ -25,6 +25,7 @@ interp_espejar imgf d w = imgf (d V.+ w) ((-1) V.* w)
 --interpreta el operador de rotacion 45
 interp_rotar45 :: ImagenFlotante -> ImagenFlotante
 interp_rotar45 imgf d w h = imgf (d V.+ mitad (w V.+h)) (mitad (w V.+ h)) (mitad (h V.- w))
+
 --interpreta el operador de apilar
 interp_apilar :: Float -> Float -> ImagenFlotante -> ImagenFlotante -> ImagenFlotante
 interp_apilar n m imgf1 imgf2 d w h =

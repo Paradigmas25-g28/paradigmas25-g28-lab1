@@ -6,6 +6,7 @@ import Dibujo
 import Interp
 import qualified Basica.Ejemplo as E
 import qualified Graphics.Gloss.Data.Point.Arithmetic as V
+import qualified Basica.Escher as Es
 
 --Funciones para rellenar el fondo de la imagen inicial
 
@@ -32,8 +33,8 @@ data Conf a = Conf {
   }
 
 ej ancho alto = Conf {
-                basic = E.interpBas
-              , fig = E.ejemplo
+                basic = Es.interpBas -- or E.interpBas
+              , fig = Es.escher 3 True -- or E.ejemplo
               , width = ancho
               , height = alto
               , r = id
@@ -43,8 +44,8 @@ moverCentro :: Float -> Float -> Picture -> Picture
 moverCentro ancho alto p = translate (-ancho / 2) (-alto / 2) p
 
 ejCentro ancho alto = Conf {
-                basic = E.interpBas
-              , fig = E.ejemplo
+                basic = Es.interpBas -- or E.interpBas
+              , fig = Es.escher 3 True -- or E.ejemplo
               , width = ancho
               , height = alto
               , r = moverCentro ancho alto
@@ -54,7 +55,7 @@ ejCentro ancho alto = Conf {
 -- pantalla la figura de la misma de acuerdo a la interpretación para
 -- las figuras básicas. Permitimos una computación para poder leer
 -- archivos, tomar argumentos, etc.
-inicial :: IO (Conf E.Basica) -> IO ()
+inicial :: IO (Conf a) -> IO () -- or (Conf E.Basica)
 inicial cf = cf >>= \cfg ->
     let ancho  = (width cfg, 0)
         alto  = (0, height cfg)
@@ -65,4 +66,4 @@ inicial cf = cf >>= \cfg ->
         grey = makeColorI 120 120 120 120
 
 win = InWindow "Paradigmas 2025 - Lab1" (500, 500) (0, 0)
-main = inicial $ return (ej 100 100)
+main = inicial $ return (ej 500 500)
