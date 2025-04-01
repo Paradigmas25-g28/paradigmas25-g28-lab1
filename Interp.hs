@@ -1,3 +1,4 @@
+
 module Interp where
 import Graphics.Gloss
 import Graphics.Gloss.Data.Vector
@@ -28,21 +29,31 @@ interp_rotar45 imgf d w h = imgf (d V.+ mitad (w V.+h)) (mitad (w V.+ h)) (mitad
 
 --interpreta el operador de apilar
 interp_apilar :: Float -> Float -> ImagenFlotante -> ImagenFlotante -> ImagenFlotante
-interp_apilar n m imgf1 imgf2 d w h =
+interp_apilar m n imgf1 imgf2 d w h =
   pictures [
-    imgf1 ( d V.+ mulSV (n / (n + m)) h) w (mulSV (m / (m + n)) h),
-    imgf2 d w (mulSV (n / (n + m)) h)
-  ]
+    imgf1 ( d V.+ h') w (mulSV r h),
+    imgf2 d w h' 
+  ] where
+    r = m / (m + n)
+    r' = n / (n + m)
+    h' = mulSV r' h
+
 --interpreta el operador de juntar
 interp_juntar :: Float -> Float -> ImagenFlotante -> ImagenFlotante -> ImagenFlotante
-interp_juntar n m imgf1 imgf2 d w h =
+interp_juntar m n imgf1 imgf2 d w h =
   pictures [
-    imgf1 d (mulSV (m / (n + m)) w) h,
-    imgf2 ( d V.+ mulSV (m / (n + m)) w) (mulSV (n / (n + m)) w) h
-  ]
+    imgf1 d w' h,
+    imgf2 (d V.+ w') (mulSV r' w) h
+  ] where 
+    r = m / (n + m)
+    r' = n / (n + m)
+    w' = mulSV r w
+
 --interpreta el operador de encimar
 interp_encimar :: ImagenFlotante -> ImagenFlotante -> ImagenFlotante
 interp_encimar imgf1 imgf2 a b c = pictures [imgf1 a b c, imgf2 a b c]
+
+
 
 --interpreta cualquier expresion del tipo Dibujo a
 --utilizar foldDib 
@@ -52,5 +63,5 @@ interp inter = foldDib inter
                        interp_espejar
                        interp_rotar45
                        interp_apilar
-                       interp_juntar 
+                       interp_juntar
                        interp_encimar

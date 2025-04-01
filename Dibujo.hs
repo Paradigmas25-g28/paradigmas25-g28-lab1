@@ -35,10 +35,10 @@ comp f n x = f (comp f (n-1) x)
 
 -- Rotaciones de múltiplos de 90.
 r180 :: Dibujo a -> Dibujo a
-r180 = comp rotar 2 
+r180 = comp Rotar 2 
 
 r270 :: Dibujo a -> Dibujo a
-r270 = comp rotar 3 
+r270 = comp Rotar 3 
 
 -- Pone una figura sobre la otra, ambas ocupan el mismo espacio.
 (.-.) :: Dibujo a -> Dibujo a -> Dibujo a
@@ -56,7 +56,7 @@ r270 = comp rotar 3
 
 -- Dadas cuatro dibujos las ubica en los cuatro cuadrantes.
 cuarteto :: Dibujo a -> Dibujo a -> Dibujo a -> Dibujo a -> Dibujo a
-cuarteto a b c d = (.-.) ((///) a b) ((///) c d)
+cuarteto a b c d = (///) ((.-.) a b) ((.-.) c d)
 
 -- Una dibujo repetido con las cuatro rotaciones, superpuestas.
 encimar4 :: Dibujo a -> Dibujo a
