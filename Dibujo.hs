@@ -56,7 +56,7 @@ r270 = comp Rotar 3
 
 -- Dadas cuatro dibujos las ubica en los cuatro cuadrantes.
 cuarteto :: Dibujo a -> Dibujo a -> Dibujo a -> Dibujo a -> Dibujo a
-cuarteto a b c d = (///) ((.-.) a b) ((.-.) c d)
+cuarteto a b c d =  (.-.) ((///) a b) ((///) c d)
 
 -- Una dibujo repetido con las cuatro rotaciones, superpuestas.
 encimar4 :: Dibujo a -> Dibujo a
@@ -65,7 +65,7 @@ encimar4 d = (^^^) d ((^^^) (r180 d) ((^^^) (Rotar d) (r270 d)))
 -- Cuadrado con la misma figura rotada i * 90, para i ∈ {0, ..., 3}.
 -- No confundir con encimar4!
 ciclar :: Dibujo a -> Dibujo a
-ciclar d = cuarteto d (Rotar d) (r180 d) (r270 d)
+ciclar d = cuarteto d (Rotar d) (r270 d) (r180 d) 
 
 -- Transfomar un valor de tipo a como una Basica.
 pureDib :: a -> Dibujo a

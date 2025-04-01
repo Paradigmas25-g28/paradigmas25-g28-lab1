@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use camelCase" #-}
 
 module Interp where
 import Graphics.Gloss
@@ -17,7 +19,7 @@ mitad = (0.5 V.*)
 
 --interpreta el operador de rotacion
 interp_rotar :: ImagenFlotante -> ImagenFlotante
-interp_rotar imgf d w h = imgf (d V.+ h) ((-1) V.* h) w
+interp_rotar imgf d w h = imgf (d V.+ w) h ((-1) V.*w)
 
 --interpreta el operador de espejar
 interp_espejar :: ImagenFlotante -> ImagenFlotante
