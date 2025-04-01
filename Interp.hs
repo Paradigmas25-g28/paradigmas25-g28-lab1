@@ -1,5 +1,3 @@
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use camelCase" #-}
 module Interp where
 import Graphics.Gloss
 import Graphics.Gloss.Data.Vector
@@ -18,7 +16,7 @@ mitad = (0.5 V.*)
 
 --interpreta el operador de rotacion
 interp_rotar :: ImagenFlotante -> ImagenFlotante
-interp_rotar imgf d w h = imgf (d V.+ h) h ((-1) V.* w)
+interp_rotar imgf d w h = imgf (d V.+ h) ((-1) V.* h) w
 
 --interpreta el operador de espejar
 interp_espejar :: ImagenFlotante -> ImagenFlotante
@@ -27,7 +25,6 @@ interp_espejar imgf d w = imgf (d V.+ w) ((-1) V.* w)
 --interpreta el operador de rotacion 45
 interp_rotar45 :: ImagenFlotante -> ImagenFlotante
 interp_rotar45 imgf d w h = imgf (d V.+ mitad (w V.+h)) (mitad (w V.+ h)) (mitad (h V.- w))
-
 --interpreta el operador de apilar
 interp_apilar :: Float -> Float -> ImagenFlotante -> ImagenFlotante -> ImagenFlotante
 interp_apilar n m imgf1 imgf2 d w h =
