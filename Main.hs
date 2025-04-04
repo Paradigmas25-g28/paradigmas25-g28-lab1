@@ -55,15 +55,51 @@ ejCentro ancho alto = Conf {
 -- pantalla la figura de la misma de acuerdo a la interpretación para
 -- las figuras básicas. Permitimos una computación para poder leer
 -- archivos, tomar argumentos, etc.
-inicial :: IO (Conf a) -> IO () -- or (Conf E.Basica)
-inicial cf = cf >>= \cfg ->
-    let ancho  = (width cfg, 0)
-        alto  = (0, height cfg)
-        imagen = interp (basic cfg) (fig cfg) (-5, -5) ancho alto
-    in display win white . withGrid $ imagen
-  where grillaGris = color grey $ grilla 10 (0, 0) 100 10
-        withGrid p = pictures [p, grillaGris]
-        grey = makeColorI 120 120 120 120
+-- inicial :: IO (Conf a) -> IO () -- or (Conf E.Basica)
+-- inicial cf = cf >>= \cfg ->
+--     let ancho  = (width cfg, 0)
+--         alto  = (0, height cfg)
+--         imagen = interp (basic cfg) (fig cfg) (-5, -5) ancho alto
+--     in display win white . withGrid $ imagen
+--   where grillaGris = color grey $ grilla 10 (0, 0) 100 10
+--         withGrid p = pictures [p, grillaGris]
+--         grey = makeColorI 120 120 120 120
+animar :: IO (Conf a) -> IO ()
+animar cf = cf >>= \cfg ->
+  animate win white (frame cfg)
+
+frame :: Conf a -> Float -> Picture
+frame cfg t =
+  let
+    ciclo = 6.28  -- 2 * pi, una vuelta
+    tiempoTotal = 6.00  -- en segundos
+
+    -- fase 1: girar en círculo
+    -- fase 2: volver al centro suavemente
+    (dx, dy)
+      | t <= tiempoTotal =
+          let angulo = 2 * pi * (t / tiempoTotal)
+              r = 100  -- radio del círculo
+          in ((r * cos angulo) - 5, (r * sin angulo) - 5)
+      | t <= tiempoTotal * 2 =
+          let tiempoRelativo = (t - tiempoTotal) / tiempoTotal
+              angulo = 2 * pi
+              r = 100 * (1 - tiempoRelativo)
+          in ((r * cos angulo) - 5, (r * sin angulo) - 5)
+      | otherwise = (-5, -5)
+
+    origen = (dx, dy)
+    ancho  = (width cfg, 0)
+    alto   = (0, height cfg)
+    imagen = interp (basic cfg) (fig cfg) origen ancho alto
+
+    gris = makeColorI 120 120 120 120
+    grillaGris = translate (-width cfg / 2) (-height cfg / 2) $
+                 color gris (grilla 10 (0, 0) 100 10)
+  in pictures [r cfg imagen, grillaGris]
 
 win = InWindow "Paradigmas 2025 - Lab1" (500, 500) (0, 0)
-main = inicial $ return (ej 110 110)
+main = animar $ return (ej 110 110)
+
+
+
