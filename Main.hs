@@ -37,7 +37,7 @@ ej ancho alto = Conf {
               , fig = Es.escher 3 True -- or E.ejemplo
               , width = ancho
               , height = alto
-              , r = id
+              , r = moverCentro ancho alto
               }
 
 moverCentro :: Float -> Float -> Picture -> Picture
@@ -59,11 +59,11 @@ inicial :: IO (Conf a) -> IO () -- or (Conf E.Basica)
 inicial cf = cf >>= \cfg ->
     let ancho  = (width cfg, 0)
         alto  = (0, height cfg)
-        imagen = interp (basic cfg) (fig cfg) (0, 0) ancho alto
+        imagen = interp (basic cfg) (fig cfg) (-5, -5) ancho alto
     in display win white . withGrid $ imagen
   where grillaGris = color grey $ grilla 10 (0, 0) 100 10
         withGrid p = pictures [p, grillaGris]
         grey = makeColorI 120 120 120 120
 
 win = InWindow "Paradigmas 2025 - Lab1" (500, 500) (0, 0)
-main = inicial $ return (ej 500 500)
+main = inicial $ return (ej 110 110)
